@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'com.mindera.gradle.slack'
 
 android {
     compileSdkVersion 23
@@ -19,10 +21,41 @@ android {
     }
 }
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.12.0'
+        // classpath 'org.codehaus.groovy:groovy-backports-compat23:2.3.5' // uncomment if you're using Gradle 1.x
+    }
+}
+
+slack {
+    url 'https://hooks.slack.com/services/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'
+    dependsOnTasks 'testDebug', 'publishApkRelease'
+    title 'my app name'
+}
+
+buildscript {
+
+    repositories {
+        maven {
+            url "https://jitpack.io"
+        }
+    }
+
+    dependencies {
+        classpath 'com.github.Mindera:gradle-slack-plugin:1.0.4'
+    }
+}
+
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.0.0'
-    compile 'com.android.support:cardview-v7:23.0.0'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:cardview-v7:23.1.1'
 }
